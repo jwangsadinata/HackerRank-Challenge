@@ -1,0 +1,63 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+    
+    // A method to find the winner
+    public static void findWinner(BigInteger x) {
+        int winner = 0;
+        if (x.equals(BigInteger.valueOf(1))) {
+            System.out.println(winnersName(winner));
+        }
+        else {
+            // I am going to use a binary representation of the number
+            // Notice that if a number is of the power of 2, it will start with a one and all zeroes
+            // Also this will allow easier modification when dividing by 2.
+            String binary_num = x.toString(2);
+            winner++;
+            while (true) {
+                // If x is a power of 2, I want shift the number to the right by 1 place
+                // If x is not a power of 2, then I want to subtract from largest power of 2; the leftmost 1.
+                // always check if x is 1 at the end 
+            	int first_one = binary_num.indexOf("1", 1);  // finding occurence of 1 in the substring
+                
+            	if (first_one == -1) {		// x is power of 2 (is in the form of 100...0)
+            		binary_num = binary_num.substring(0, binary_num.length()-1);
+            		if (binary_num.equals("1")) {
+            			System.out.println(winnersName(winner));
+            			break;
+            		} else {
+            			winner++;
+            		}
+            	} else {					// x is not power of 2
+            		binary_num = binary_num.substring(first_one);
+            		if (binary_num.equals("1")) {
+            			System.out.println(winnersName(winner));
+            			break;
+            		} else {
+            			winner++;
+            		}
+            	}
+            }
+        }
+    }
+    
+    // Helper function to decide the name of the winner
+    public static String winnersName(int x) {
+        String name = (x % 2 == 0) ? "Richard" : "Louise";
+        return name;
+    }
+
+    public static void main(String[] args) {
+        
+        Scanner in = new Scanner(System.in);
+        int testcases = in.nextInt();
+        for (int i = 0; i < testcases; i++) {
+            BigInteger x = in.nextBigInteger();
+            findWinner(x);   
+        }
+    }
+}
